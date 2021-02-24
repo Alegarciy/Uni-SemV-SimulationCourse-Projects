@@ -1,0 +1,191 @@
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Tarea de Blackjack
+
+
+
+
+▌
+▌ Tarea de "Blackjack".
+▌
+
+En esta tarea se simulará el juego de cartas conocido con el nombre de "Blackjack" o "21". A continuación se muestran la estrategia que debe seguir el jugador (quien recibe las cartas) y el "dealer" (la casa, quien reparte las cartas). Estamos interesados en asumir el papel del jugador para estimar la probabilidad de éxito si se juega con una estrategia casi óptima.
+
+
+
+
+▌
+▌ Inicio del juego.
+▌
+
+
+Se debe tener un "deck" o mazo de cartas. Primero se revuelven todas las cartas.
+
+Se reparten dos cartas a cada participante. De la siguiente manera: una carta cerrada al jugador y una carta cerrada la casa, posteriormente una carta abierta al jugador y una carta abierta a la casa.
+
+El jugador puede ver únicamente la carta abierta de la casa lo que se conoce como la carta visible.
+
+
+
+
+
+▌
+▌ Estrategia para el jugador.
+▌
+
+La estrategia del jugador se resume en la siguiente tabla. La "H" significa "Hit" o pedir una carta. La "S" significa "Stand" y ya no se piden cartas.
+
+─────────────────────────────────────────────
+        .....Carta Visible del "Dealer"......
+Jug.    2   3   4   5   6   7   8   9  10   A
+─────────────────────────────────────────────
+04-11   H   H   H   H   H   H   H   H   H   H
+12      H   H   S   S   S   H   H   H   H   H
+13-16   S   S   S   S   S   H   H   H   H   H
+17-21   S   S   S   S   S   S   S   S   S   S
+─────────────────────────────────────────────
+
+
+
+
+
+
+
+
+▌
+▌ Estrategia para de la casa.
+▌
+
+La estrategia de la casa es muy sencilla y se explica a continuación.
+
+La casa pide cartas hasta que ocurra uno de los eventos siguientes:
+• Pedir (H) si tiene 16 o menos.
+• Quedarse (S) si tiene 17 o más puntos.
+
+
+
+
+▌
+▌ Cómo se gana el juego.
+▌
+
+La casa gana el juego cuando:
+
+• Tiene igual o más puntos que el jugador sin pasarse de 21.
+
+• Si el jugador se pasa de 21, la casa automáticamente gana el juego, sin tener que repartir cartas.
+
+El jugador gana el juego cuando:
+• Tiene más puntos que el "dealer" sin pasarse de 21.
+
+
+
+
+
+▌
+▌ Desarrollo de Simulación.
+▌
+
+
+Se debe simular un juego de 21 utilizando las estrategias antes mencionadas y averiguar cuál es la probabilidad de éxito en el juego para el jugador.
+
+Para ello se debe llevar a cabo los siguientes procesos:
+• Generar un "deck" de cartas.
+• Mezclar las cartas.
+• Repartir una carta cerrada al jugador y luego a la casa.
+• Repartir una carta abierta al jugador y luego a la casa.
+• El jugador debe pedir cartas siguiendo la estrategia descrita.
+• La casa pedirá cartas siguiendo la estragia descrita.
+• Se determina quien gana.
+• Se guardan los resultados para saber cuántos juegos gana el jugador y determinar la probabilidad de ganar.
+• El programa debe enviarse para que realice una ejecución de 100000 juegos y que imprima el resultado respectivo.
+
+
+Al terminar su simulación debe entregar la siguiente documentación, la cual debe venir en PDF o Texto y debe contener:
+• Nombre y carné de los dos miembros del grupo.
+• Código fuente utilizado.
+• Respuesta con la probabilidad de ganar el juego.
+
+
+▌
+▌ Bibliografía.
+▌
+
+www.blackjackinfo.com
+www.wizardofodds.com/blackjack
+www.hitorstand.net/strategy.php
+
+
+
+
+
+▌
+▌ Apéndices.
+▌
+
+
+A continuación se brinda el código de "Stats101" para crear un "deck" de cartas y repartir las primeras cartas para que inicie el juego.
+
+
+'*****
+'Se construye un "deck" de cartas
+
+copy 4#1,13 deck
+print deck
+
+shuffle deck deck
+print deck
+
+take deck (1 3) cartasJug
+take deck (2 4) cartasCasa
+remove deck (1 2 3 4) deck
+print cartasJug cartasCasa deck
+
+
+'******************
+'Suma de las cartas
+
+newcmd contar cartas suma       
+       copy cartas naipes
+       recode naipes between 10 13 10 naipes
+       sum naipes sumaTotal
+
+       if (1 memberof naipes) and (sumaTotal + 10)<=21
+          suma = sumaTotal + 10
+       else
+          suma = sumaTotal
+       end
+end
+ 
+
+'******** 
+' Pruebas
+copy (1 1 2) cartas
+contar cartas res
+print res
+
+
+
+▌
+▌ 9. Rúbrica de Calificación.
+▌
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
