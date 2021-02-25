@@ -1,11 +1,9 @@
 CLEAROUTPUT
 
 /* CONSTRUYE UN DECK DE CARTAS */
+GLOBAL deck
 copy 4#1,13 deck
-/* print deck */
-
 shuffle deck deck
-/* print deck */
 
 /* INICIO DE LA RONDA */
 
@@ -20,11 +18,9 @@ take cartasCasa 2,numCartasCasa cartasVisCasa
 
 /* final de inicio de la ronda */
 remove deck (1 2 3 4) deck
-print cartasVisCasa cartasJug cartasCasa deck
 
 
 /* SUMA LAS CARTAS */
-
 newcmd contar cartas suma       
        copy cartas naipes
        recode naipes between 10 13 10 naipes
@@ -37,18 +33,10 @@ newcmd contar cartas suma
        end
 end
 
-/* prueba contar */
-
-copy (1 1 2) cartas
-contar cartas res
-print res
-
 /* ESTRATEGIA DEL JUGADOR */
-
 newcmd cogerCartasJug cartasJug cartaVisCasa respuesta
 	contar cartasJug sumaCartas
-	/* print sumaCartas */
-	
+
 	if cartaVisCasa=1
 	/* si es A */
 		cartaVisCasa = 11
@@ -56,8 +44,6 @@ newcmd cogerCartasJug cartasJug cartaVisCasa respuesta
 	/* si son nobles */
 		recode cartaVisCasa between 10 13 10 cartaVisCasa
 	end
-
-	/* print cartaVisCasa */
 
 	if (sumaCartas >= 04 AND sumaCartas <= 11)
 		respuesta = 1
@@ -87,17 +73,10 @@ newcmd realizarTurnoJugador cartasIniciales cartasVisCasa deck cartasResultantes
 		
 end
 
-/* prueba cogerCartas jugador */
-
-
-/* 
-cogerCartasJug (13.0 1.0 5.0) cartasVisCasa respuesta
-print respuesta
-*/
-
 /* prueba realizarTurnoJugador */
-
+print deck
 realizarTurnoJugador cartasJug cartasVisCasa deck cartasResultantes
+print deck
 
 
 
