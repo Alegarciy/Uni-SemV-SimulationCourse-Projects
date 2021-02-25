@@ -1,109 +1,120 @@
 CLEAROUTPUT
-
-/* CONSTRUYE UN DECK DE CARTAS */
+/* Variables globales */
 GLOBAL deck
-copy 4#1,13 deck
-shuffle deck deck
-
-/* INICIO DE LA RONDA */
-
-/* cartas del jugador */
-take deck (1 3) cartasJug
-size cartasJug numCartasJug
-
-/* cartas del dealer */
-take deck (2 4) cartasCasa
-size cartasCasa numCartasCasa
-take cartasCasa 2,numCartasCasa cartasVisCasa
-
-/* final de inicio de la ronda */
-remove deck (1 2 3 4) deck
-
 
 /* SUMA LAS CARTAS */
-newcmd contar cartas suma       
-       copy cartas naipes
-       recode naipes between 10 13 10 naipes
-       sum naipes sumaTotal
-
-       if (1 memberof naipes) and (sumaTotal + 10)<=21
-          suma = sumaTotal + 10
-       else
-          suma = sumaTotal
-       end
+newcmd contar cartas suma
+   copy cartas naipes
+   recode naipes between 10 13 10 naipes
+   sum naipes sumaTotal
+   
+   if (1 memberof naipes) and (sumaTotal + 10)<=21
+      suma = sumaTotal + 10
+   else
+      suma = sumaTotal
+   end
 end
 
 /* ESTRATEGIA DEL JUGADOR */
 newcmd cogerCartasJug cartasJug cartaVisCasa respuesta
-	contar cartasJug sumaCartas
-
-	if cartaVisCasa=1
-	/* si es A */
-		cartaVisCasa = 11
-	else
-	/* si son nobles */
-		recode cartaVisCasa between 10 13 10 cartaVisCasa
-	end
-
-	if (sumaCartas >= 04 AND sumaCartas <= 11)
-		respuesta = 1
-	elseif sumaCartas = 12 AND (cartaVisCasa <= 3 OR cartaVisCasa >= 7)
-		respuesta = 1
-	elseif (sumaCartas >= 13 AND sumaCartas <= 16) AND cartaVisCasa >= 7
-		respuesta = 1
-	else 
-		respuesta = 0
-	end
+   contar cartasJug sumaCartas
+   
+   if cartaVisCasa=1
+      /* si es A */
+      cartaVisCasa = 11
+   else
+      /* si son nobles */
+      recode cartaVisCasa between 10 13 10 cartaVisCasa
+   end
+   
+   if (sumaCartas >= 04 AND sumaCartas <= 11)
+      respuesta = 1
+   elseif sumaCartas = 12 AND (cartaVisCasa <= 3 OR cartaVisCasa >= 7)
+      respuesta = 1
+   elseif (sumaCartas >= 13 AND sumaCartas <= 16) AND cartaVisCasa >= 7
+      respuesta = 1
+   else
+      respuesta = 0
+   end
 end
 
-newcmd realizarTurnoJugador cartasIniciales cartasVisCasa deck cartasResultantes
-	concat cartasIniciales cartasResultantes
-	cogerCartasJug cartasIniciales cartasVisCasa seguirCogiendo
-	
-	while seguirCogiendo=1
-		take deck (1) cartaCogida
-		concat cartaCogida cartasResultantes cartasResultantes
-		remove deck (1) deck
-		cogerCartasJug cartasResultantes cartasVisCasa seguirCogiendo
-	end
+newcmd realizarTurnoJugador cartasIniciales cartasVisCasa cartasResultantes
+   concat cartasIniciales cartasResultantes
+   cogerCartasJug cartasIniciales cartasVisCasa seguirCogiendo
+   
+   while seguirCogiendo=1
+      take deck (1) cartaCogida
+      concat cartaCogida cartasResultantes cartasResultantes
+      remove deck (1) deck
+      cogerCartasJug cartasResultantes cartasVisCasa seguirCogiendo
+   end
 end
 
 
 /* ESTRATEGIA DE LA CASA */
 
 newcmd realizarTurnoCasa cartasCasa cartasResultantes
-	contar cartasCasa sumaCartas
-	concat cartasCasa cartasResultantes cartasResultantes
-	
-	while sumaCartas <= 16
-		take deck (1) cortaCogida
-		concat cortaCogida cartasResultantes cartasResultantes
-		remove deck (1) deck
-		contar cartasResultantes sumaCartas
-	end	
+   contar cartasCasa sumaCartas
+   concat cartasCasa cartasResultantes
+   
+   while sumaCartas <= 16
+      take deck (1) cortaCogida
+      concat cortaCogida cartasResultantes cartasResultantes
+      remove deck (1) deck
+      contar cartasResultantes sumaCartas
+   end
 end
 
-/* PRUEBAS */
+/* JUEGO DE BLACKJACK */
 
-/* prueba realizarTurnoJugador */
-print "===== Jugador Antes: ====="
-print cartasJug
-print deck
-print "===== Jugador Despues: ====="
-realizarTurnoJugador cartasJug cartasVisCasa deck cartasResultantesJug
-print cartasResultantesJug
-contar cartasResultantesJug sumaJugador
-print sumaJugador
-print deck
+numCiclos = 3
 
-/* prueba realizarTurnoCasa */
-print "===== Casa Antes: ====="
-print cartasCasa
-print deck
-print "===== Casa Despues: ====="
-realizarTurnoCasa cartasCasa cartasResultantes
-print cartasResultantes
-contar cartasResultantes sumaCasa
-print sumaCasa
-print deck
+repeat numCiclos
+   
+   print ""
+   print ""
+   print ""
+   
+   /* CONSTRUYE UN DECK DE CARTAS */
+   copy 4#1,13 deck
+   shuffle deck deck
+   
+   /* INICIO DE LA RONDA */
+	cartasJug = ()
+	cartasCasa = ()
+	cartasVisCasa = ()
+   
+   /* cartas del jugador */
+   take deck (1 3) cartasJug
+   size cartasJug numCartasJug
+   /* cartas del dealer */
+   take deck (2 4) cartasCasa
+   size cartasCasa numCartasCasa
+   take cartasCasa 2,numCartasCasa cartasVisCasa
+   /* final de inicio de la ronda */
+   remove deck (1 2 3 4) deck
+   
+   /* prueba realizarTurnoJugador */
+   print "===== Jugador Antes: ====="
+   print cartasJug
+   print deck
+   print "===== Jugador Despues: ====="
+   realizarTurnoJugador cartasJug cartasVisCasa cartasResultantesJug
+   print cartasResultantesJug
+   contar cartasResultantesJug sumaJugador
+   print sumaJugador
+   print deck
+   
+   /* prueba realizarTurnoCasa */
+   print "===== Casa Antes: ====="
+   print cartasCasa
+   print deck
+   print "===== Casa Despues: ====="
+   realizarTurnoCasa cartasCasa cartasResultantes
+   print cartasResultantes
+   contar cartasResultantes sumaCasa
+   print sumaCasa
+   print deck
+   
+end
 
