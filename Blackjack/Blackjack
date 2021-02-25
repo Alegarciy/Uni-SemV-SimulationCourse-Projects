@@ -57,9 +57,7 @@ newcmd cogerCartasJug cartasJug cartaVisCasa respuesta
 end
 
 newcmd realizarTurnoJugador cartasIniciales cartasVisCasa deck cartasResultantes
-	
 	concat cartasIniciales cartasResultantes
-	print "Antes :" cartasResultantes
 	cogerCartasJug cartasIniciales cartasVisCasa seguirCogiendo
 	
 	while seguirCogiendo=1
@@ -68,17 +66,44 @@ newcmd realizarTurnoJugador cartasIniciales cartasVisCasa deck cartasResultantes
 		remove deck (1) deck
 		cogerCartasJug cartasResultantes cartasVisCasa seguirCogiendo
 	end
-	
-	print "Depues:" cartasResultantes
-		
 end
 
+
+/* ESTRATEGIA DE LA CASA */
+
+newcmd realizarTurnoCasa cartasCasa cartasResultantes
+	contar cartasCasa sumaCartas
+	concat cartasCasa cartasResultantes cartasResultantes
+	
+	while sumaCartas <= 16
+		take deck (1) cortaCogida
+		concat cortaCogida cartasResultantes cartasResultantes
+		remove deck (1) deck
+		contar cartasResultantes sumaCartas
+	end	
+end
+
+/* PRUEBAS */
+
 /* prueba realizarTurnoJugador */
+print "===== Jugador Antes: ====="
+print cartasJug
 print deck
-realizarTurnoJugador cartasJug cartasVisCasa deck cartasResultantes
+print "===== Jugador Despues: ====="
+realizarTurnoJugador cartasJug cartasVisCasa deck cartasResultantesJug
+print cartasResultantesJug
+contar cartasResultantesJug sumaJugador
+print sumaJugador
 print deck
 
-
-
-
+/* prueba realizarTurnoCasa */
+print "===== Casa Antes: ====="
+print cartasCasa
+print deck
+print "===== Casa Despues: ====="
+realizarTurnoCasa cartasCasa cartasResultantes
+print cartasResultantes
+contar cartasResultantes sumaCasa
+print sumaCasa
+print deck
 
