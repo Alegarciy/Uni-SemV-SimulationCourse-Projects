@@ -15,3 +15,67 @@ newcmd llamarMetodo
 	end
 end
 
+newcmd EstrategiaClasica dineroInicio apuestaInicial gananciaDeseada respuesta
+	dineroAcumulado = dineroInicio
+	
+	while (dineroAcumulado > 0 AND dineroAcumulado < gananciaDeseada)
+		jugarBJ partida
+		if partida=1
+			dineroAcumulado = dineroAcumulado + apuestaInicial
+		else
+			dineroAcumulado = dineroAcumulado - apuestaInicial
+		end
+	end
+
+	if(dineroAcumulado <= 0)
+		respuesta = 0
+	else
+		respuesta = 1
+	end
+end
+
+newcmd EstrategiaNightingale dineroInicio apuestaInicial gananciaDeseada respuesta
+	dineroAcumulado = dineroInicio
+	apuestaEstrategica = apuestaInicial
+
+	while (dineroAcumulado > 0 AND dineroAcumulado < gananciaDeseada)
+		jugarBJ partida
+		if partida=1
+			dineroAcumulado = dineroAcumulado + apuestaEstrategica
+			apuestaEstrategica = apuestaInicial
+		elseif partida=0 AND dineroAcumulado >= apuestaEstrategica
+			dineroAcumulado = dineroAcumulado - apuestaEstrategica
+			apuestaEstrategica = apuestaEstrategica * 2
+		else
+			dineroAcumulado = 0
+		end
+
+		/* Joseph si quiere revisarlo descomente esto kikiriki
+		print ""
+		print "Prueba:"
+		print partida
+		print dineroAcumulado
+		print apuestaEstrategica
+		Si no borrelo */ 
+	end
+	
+	if(dineroAcumulado <= 0)
+		respuesta = 0
+	else 
+		respuesta = 1
+	end
+end 
+
+/*
+EstrategiaNightingale 2000 100 2500 res
+print ""
+print res
+*/
+
+/*
+EstrategiaClasica 2000 100 2500 res
+print res
+*/
+
+
+
