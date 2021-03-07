@@ -1,0 +1,151 @@
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Tarea del Ruiseñor
+
+
+▌
+▌ Descripción de la Simulación.
+▌
+
+
+Se tiene un juego con una probabilidad de ganar de 0.42 y una probabilidad de perder de 0.58. Cada vez que se apuesta una cantidad de dinero "x" se gana lo que se apuesta o se pierde todo. 
+
+Se inicia el juego con $2000 dólares y se desea llegar a obtener $2500.
+
+
+
+
+● La Estrategia Clásica.
+
+Se utiliza una estrategia de apuesta con x=100. 
+Si gano apuesto "x" y si pierdo apuesto "x". 
+A continuación se muestra un ejemplo.
+
+──────────────────────────
+Dinero  Apuesta  Resultado
+──────────────────────────
+2000     100       gano
+2100     100       pierdo
+2000     100       pierdo
+1900     100       pierdo
+1800     100       gano
+1900     ...
+──────────────────────────
+
+
+
+
+
+● La Estrategia del Ruiseñor ("Nightingale")
+
+Si se utiliza una estrategia de apuesta "x,2x" con x=100. 
+Si gano apuesto lo inicial "x", pero si pierdo apuesto el doble de lo que perdí­, es decir "2*x". 
+
+──────────────────────────
+Dinero  Apuesta  Resultado
+──────────────────────────
+2000     100       gano
+2100     100       pierdo
+2000     200       pierdo
+1800     400       gano
+2200     100       gano
+2300     100       pierdo
+2200     200       pierdo
+2000     400       pierdo
+1600     800       gano
+2400     ...
+──────────────────────────
+
+En caso de no tener suficiente dinero para cubrir el monto correspondiente se apuesta todo el dinero que se tiene y se vuelve a iniciar la estrategia. Por ejemplo:
+
+──────────────────────────
+Dinero  Apuesta  Resultado
+──────────────────────────
+2000     100       gano
+2100     100       pierdo
+2000     200       pierdo
+1800     400       pierdo
+1400     800       pierdo
+ 600     600       gano    <-- Deberá apostar 1600
+1200     100       gano
+1300     100
+...
+──────────────────────────
+
+
+
+
+● Objetivos de la Simulación.
+
+Obtener la probabilidad de obtener $2500, iniciando con un capital de $2000 utilizando la estrategia clásica.
+
+Obtener la probabilidad de obtener $2500, iniciando con un capital de $2000 utilizando la estrategia del ruiseñor.
+
+
+
+
+
+● Terminación del Juego
+
+Sin importar cuál estrategia se utilice. La simulación termina cuando ocurre una de las siguientes situaciones:
+
+-- Llego a una meta de dinero predeterminada.
+
+-- Me quedo sin nada de dinero ($0).
+
+
+
+
+▌
+▌ Entregables.
+▌
+
+
+Deberá entregar su tarea en un archivo de texto. La tarea debe incluir.
+
+En comentarios poner:
+
+• Nombre y carné de los miembros del grupo.
+
+• La probabilidad con estrategia x,x de 2000 -> 2500.
+
+• La probabilidad con estrategia x,2*x de 2000 -> 2500.
+
+
+Y después de los comentarios:
+
+• El código fuente de la simulación.
+
+
+
+
+
+
+
+▌
+▌ Rúbrica de calificación.
+▌
+
+
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
+
+Se debe entregar la tarea con al menos 2 dígitos de precisión en la respuesta.

@@ -1,0 +1,17 @@
+CLEAROUTPUT
+
+newcmd jugarBJ res
+	copy 42#1 58#0 bolsa
+	sample 1 bolsa res
+end
+
+newcmd llamarMetodo 
+	jugarBJ partida
+	
+	if partida=1
+		print "ganacion"
+	else
+		print "perdicion"
+	end
+end
+
