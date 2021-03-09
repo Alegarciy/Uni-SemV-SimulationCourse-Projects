@@ -1,16 +1,16 @@
 /*
-Tecnológico de Costa Rica, Escuela de Computación, Ingeniería en Computación
-Curso de Simulación, I Semestre 2021
-Tarea del Ruiseñor
-Joseph Tenorio Pereira (2019064588) y Alejandro García Bejarano (2019380047) 
+Tecnolï¿½gico de Costa Rica, Escuela de Computaciï¿½n, Ingenierï¿½a en Computaciï¿½n
+Curso de Simulaciï¿½n, I Semestre 2021
+Tarea del Ruiseï¿½or
+Joseph Tenorio Pereira (2019064588) y Alejandro Garcï¿½a Bejarano (2019380047) 
 
-Probabilidad de alcanzar $2500 empezando con $2000 y apostando $100, con estrategia clásica: 0.198
+Probabilidad de alcanzar $2500 empezando con $2000 y apostando $100, con estrategia clï¿½sica: 0.198
 
-Probabilidad de alcanzar $2500 empezando con $2000 y apostando $100, con estrategia clásica: 0.603
+Probabilidad de alcanzar $2500 empezando con $2000 y apostando $100, con estrategia clï¿½sica: 0.603
 
 */
 
-/*-----------------------------------------Código Fuente de la simulación-----------------------------------------*/
+/*-----------------------------------------Cï¿½digo Fuente de la simulaciï¿½n-----------------------------------------*/
 
 /* JUEGO DE BLACKJACK */
 newcmd jugarBJ res
@@ -38,14 +38,14 @@ newcmd EstrategiaClasica dineroInicio apuestaInicial gananciaDeseada respuesta
 	end
 end
 
-/* ESTRATEGIA DEL RUISEÑOR */
+/* ESTRATEGIA DEL RUISEï¿½OR */
 newcmd EstrategiaNightingale dineroInicio apuestaInicial gananciaDeseada respuesta
 	dineroAcumulado = dineroInicio
 	apuestaEstrategica = apuestaInicial
 
 	while (dineroAcumulado > 0 AND dineroAcumulado < gananciaDeseada)
 		jugarBJ partida
-		if partida=1
+		if partida=1 AND dineroAcumulado >= apuestaEstrategica
 			dineroAcumulado = dineroAcumulado + apuestaEstrategica
 			apuestaEstrategica = apuestaInicial
 		else 
@@ -90,10 +90,10 @@ end
 probNightingale = victoriasNightingale / numCiclos
 probClasica =  victoriasClasica / numCiclos
 
-print "===== Probabilidad de llegar a $2500 con la estrategia clásica ====="
+print "===== Probabilidad de llegar a $2500 con la estrategia clï¿½sica ====="
 print probClasica
 print 
-print "===== Probabilidad de llegar a $2500 con la estrategia del ruiseñor ====="
+print "===== Probabilidad de llegar a $2500 con la estrategia del ruiseï¿½or ====="
 print probNightingale
 
 
