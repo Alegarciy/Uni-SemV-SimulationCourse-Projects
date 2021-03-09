@@ -40,8 +40,11 @@ newcmd EstrategiaNightingale dineroInicio apuestaInicial gananciaDeseada respues
 
 	while (dineroAcumulado > 0 AND dineroAcumulado < gananciaDeseada)
 		jugarBJ partida
-		if partida=1
+		if partida=1 AND dineroAcumulado >= apuestaEstrategica
 			dineroAcumulado = dineroAcumulado + apuestaEstrategica
+			apuestaEstrategica = apuestaInicial
+		elseif partida=1 AND dineroAcumulado < apuestaEstrategica
+			dineroAcumulado = dineroAcumulado + dineroAcumulado
 			apuestaEstrategica = apuestaInicial
 		elseif partida=0 AND dineroAcumulado >= apuestaEstrategica
 			dineroAcumulado = dineroAcumulado - apuestaEstrategica
@@ -50,13 +53,12 @@ newcmd EstrategiaNightingale dineroInicio apuestaInicial gananciaDeseada respues
 			dineroAcumulado = 0
 		end
 
-		/* Joseph si quiere revisarlo descomente esto kikiriki
 		print ""
 		print "Prueba:"
 		print partida
 		print dineroAcumulado
 		print apuestaEstrategica
-		Si no borrelo */ 
+
 	end
 	
 	if(dineroAcumulado <= 0)
@@ -66,11 +68,11 @@ newcmd EstrategiaNightingale dineroInicio apuestaInicial gananciaDeseada respues
 	end
 end 
 
-/*
+
 EstrategiaNightingale 2000 100 2500 res
 print ""
 print res
-*/
+
 
 /*
 EstrategiaClasica 2000 100 2500 res
