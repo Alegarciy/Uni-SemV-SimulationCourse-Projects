@@ -1,0 +1,115 @@
+CLEAROUTPUT
+
+/* ENUMARCIONES */
+NAME Diferentes Par DosPares Tercia Full Poker Quintilla
+
+
+/* SUBRUTINAS */
+
+/* 
+Clasifica una mano de 5 cartas
+*/
+NEWCMD classsifyHand hand category
+   /* Códigos de las clasificaciones: 
+   1 - Quintilla
+   2 - Poker
+   3 - Tercia
+   4 - Un par
+   5 - Dos pares
+   6 - Full
+   7 - Todos diferentes
+   */
+   MULTIPLES hand >1 multipleCount /*Cuenta grupos de iguales */
+   IF multipleCount = 0 /* Si no hay grupos, son todas diferentes*/
+      category = 7
+   ELSEIF multipleCount = 1 /*Si hay un grupo, puede ser quintilla, poker, tercia o un par */
+      MULTIPLES hand > 0 category /*Cuenta cantidad de digitos unicos, la cantidad corresponde al código de clasificación*/
+   ELSE /* Si hay dos grupos, puede ser Full o dos pares*/
+      MULTIPLES hand >2 trioCount /*Cuenta grupos de tres */
+      category = 5 + trioCount /*Si hay un grupo de tres, es Full, sino es dos pares*/
+   END
+END
+
+/* 
+Transforma un numero en una lista 
+*/
+NEWCMD explotar dec num lista
+       res = ()
+       t = num * 10^dec
+       integer round t t
+       integer truncate t t
+       /*
+       print num
+       print t
+       */
+       integer truncate t t
+       numCiclos = dec
+       repeat numCiclos
+              rem = t % 10
+              quo = t / 10
+              integer truncate quo quo
+              t = quo
+              concat rem res res
+       end
+       lista = res
+END
+
+/* 
+Determina las frecuencias observadas de las categorías
+en el orden: (#todosDiferentes, #Pares, #DosPares, #Tercia, #Full, #Poker, #Quintillas) 
+*/
+NEWCMD countObsFrecuencies handPoll obsFrecuencies
+   obsFrecuencies = (0 0 0 0 0 0 0)
+   FOREACH hand handPoll
+       explotar 5 hand hand
+       classsifyHand hand category
+       IF category = 7
+           ADD (1 0) obsFrecuencies obsFrecuencies
+       ELSEIF category = 4
+           ADD (0 1 0) obsFrecuencies obsFrecuencies
+       ELSEIF category = 5
+           ADD (0 0 1 0) obsFrecuencies obsFrecuencies
+       ELSEIF category = 3
+           ADD (0 0 0 1 0) obsFrecuencies obsFrecuencies
+       ELSEIF category = 6
+           ADD (0 0 0 0 1 0) obsFrecuencies obsFrecuencies
+       ELSEIF category = 2
+           ADD (0 0 0 0 0 1 0) obsFrecuencies obsFrecuencies
+       ELSE
+           ADD (0 0 0 0 0 0 1) obsFrecuencies obsFrecuencies 
+       END
+   END
+END
+
+/* 
+Determina las frecuencias esperadas de las categorías
+en el orden: (#todosDiferentes, #Pares, #DosPares, #Tercia, #Full, #Poker, #Quintillas) 
+*/
+NEWCMD countExpFrecuencies handPoll expFrecuencies
+   SIZE handPoll n
+   categoryProb = (0.3024 0.5040 0.1080 0.0720 0.0090 0.0045 0.0001)
+   COPY categoryProb expFrecuencies
+   MULTIPLY n expFrecuencies expFrecuencies
+END
+
+/* 
+Determina el error (error = (fo-fe)² / fe) esperado de las categorias, dadas las frecuencias observadas y esperadas
+en el orden: (#todosDiferentes, #Pares, #DosPares, #Tercia, #Full, #Poker, #Quintillas) 
+*/
+NEWCMD countExpError obsFrecuencies expFrecuencies expError
+   COPY obsFrecuencies expError
+   SUBTRACT expError expFrecuencies expError
+   SQUARE expError expError
+   DIVIDE expError expFrecuencies expError
+END
+   
+/* MAIN */
+
+Categorias = (Diferentes Par DosPares Tercia Full Poker Quintilla)
+READ handPoll
+countObsFrecuencies handPoll Fo
+countExpFrecuencies handPoll Fe
+countExpError Fo Fe Error
+WRITE window heading Categorias Fo%5.4F Fe%2.4F Error%2.4F  /*Imprime los calculos de las frecuencias y el error*/
+
+ 
