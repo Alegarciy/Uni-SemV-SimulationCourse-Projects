@@ -6,6 +6,7 @@ Joseph Tenorio Pereira (2019064588) y Alejandro Garcia Bejarano (2019380047)
 
 Deseamos construir un programa que utiliza la prueba del Poker para encontrar el valor de chi cuadrado subcero,
 para un conjunto de datos que suponemos pueden ser uniformes.
+Valor obtenido con los datos de prueba: 3.2586
 
 */
 
