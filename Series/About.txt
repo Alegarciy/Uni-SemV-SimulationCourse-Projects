@@ -1,0 +1,149 @@
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Pruebas de Series
+
+
+
+
+|
+| Introducción.
+|
+
+Deseamos construir un programa para encontrar el valor de chi cuadrado para un conjunto de datos, que suponemos pueden ser uniformes, mediante la prueba de Series.
+
+
+  
+|
+| Descripción del problema.
+|
+
+El objetivo general consiste en construir un programa utilizando Statistics101 que indique el número de valores en cada casilla y que calcule el valor de Ji Cuadrado para la prueba de series.
+
+Debe de:
+
+• Preguntar por el número de intervalos.
+En este caso si se piden 5 intervalos, estos serán de tamaño 1/5=0.20
+
+• Leer un archivo con datos. 
+
+• Presentar la frecuencia de datos sobre una superficie.
+
+• Presentar el valor de chi cuadrado. 
+
+
+
+
+
+|
+| Algunas instrucciones importantes.
+|
+
+A continuación mencionamos algunas instrucciones que pueden ser útiles para que realicen su tarea. Recuerde que puede encontrar más información de las mismas en el archivo de ayuda.
+
+
+
+
+--- La instrucción "input"
+
+Se utiliza para leer una variable directamente del teclado.
+
+
+clearoutput
+input inc
+
+'Resultado
+Please enter inc:
+
+
+
+
+
+--- La instrucción "read".
+
+Lee variables o bien un archivo
+
+clearoutput
+READ file "c:\\folder\\misDatos.txt"  input
+print input
+
+
+
+
+--- La instrucción "put".
+
+clearoutput
+copy (1 2 3 4 5 6 7)   res
+put  (100 300 500) (1 3 5) res
+print res
+
+'Resultado:
+res: (100.0 2.0 300.0 4.0 500.0 6.0 7.0)
+
+
+
+
+--- La instrucción "size".
+
+clearoutput
+a = (100 200 300 400 500)
+size a res
+print res
+
+'Resultado:
+res: 5.0
+
+
+
+
+--- La instrucción  "chisquare"
+
+Realiza los cálculos para obtener el valor de ji cuadrado subcero.
+
+clearoutput
+copy (30.0 29.0 16.0 12.0 33.0 5.0) freqObservada
+copy (25.2 37.2 12.6 16.8 24.8 8.4) freqEsperada
+chisquare freqObservada freqEsperada chiCuadS0
+print chiCuadS0
+
+'Resultado
+chiCuadS0: 9.098182283666157
+
+
+
+
+|
+| Rúbrica de calificación.
+|
+
+Deberá entregar su tarea en Texto. La tarea debe incluir.
+
+* Nombre y carné de los miembros del grupo.
+
+* La respuesta correcta.
+
+* El código fuente de la simulación.
+
+
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
+
+
+Se evalúa que el código esté debidamente programado, facilidad, buenas técnicas de programación y eficiencia. Todos estos factores se medirán contra el código que haya diseñado el profesor. Se debe entregar la tarea con al menos 2 dígitos de precisión en la respuesta.
