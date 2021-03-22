@@ -67,7 +67,8 @@ NEWCMD getFreqEsp archivoDatos numeroIntervalos freqEsperada
 END
 
 READ archivoDatos
-emparejarDatos archivoDatos 5 res	
-getFreqEsp archivoDatos 5 res1
+INPUT numeroIntervalos
+emparejarDatos archivoDatos numeroIntervalos res	
+getFreqEsp archivoDatos numeroIntervalos res1
 PRINT res
 PRINT res1
