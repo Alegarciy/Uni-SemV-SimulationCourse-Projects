@@ -1,0 +1,73 @@
+CLEAROUTPUT
+
+/*
+COPY 10,20 Numbers
+TAKE Numbers (1 3 5) selectedData
+PRINT selectedData
+PRINT Numbers
+*/
+
+NEWCMD emparejarDatos archivoDatos numeroIntervalos frecuenciasObsv
+	NEWARRAY matriz numeroIntervalos numeroIntervalos
+	SIZE archivoDatos sizeDatos
+	indexX = 1
+	indexY = 2
+	/* INICIALIZAR MATRIZ */
+	FOREACH row 1,numeroIntervalos
+   		FOREACH col 1,numeroIntervalos
+      			matriz[row][col] = 0
+		END
+   	END
+	/* INSERTAR DATOS */
+	WHILE indexX < sizeDatos
+		TAKE archivoDatos indexX selectedDataX
+		TAKE archivoDatos indexY selectedDataY
+
+		coordenadaX = selectedDataX * numeroIntervalos + 1
+		coordenadaY = selectedDataY * numeroIntervalos + 1
+
+		INTEGER truncate coordenadaX coordenadaX
+		INTEGER truncate coordenadaY coordenadaY
+		
+		matriz[coordenadaX][coordenadaY] = matriz[coordenadaX][coordenadaY] + 1
+
+		indexX = indexX + 1
+		indexY = indexY + 1		
+	END
+	/* IMPRIMIR BONITO MATRIZ */
+	pocentajeIncremento = 1/numeroIntervalos
+	porcentajeMin = 1 - pocentajeIncremento
+	porcentajeMax = 1
+	PRINT "Min\tMax"  'Print header first 
+	FOREACH col numeroIntervalos,1
+		OUTPUT "%5.3F\t%5.3F\t =>\t" porcentajeMin porcentajeMax
+   		FOREACH row 1,numeroIntervalos
+      			OUTPUT "%5.3F\t" matriz[row][col]
+		END
+		PRINT""
+		porcentajeMin = porcentajeMin - pocentajeIncremento
+		porcentajeMax = porcentajeMax - pocentajeIncremento
+   	END
+	/* DEVOLVER FRECUENCIAS */
+	/* INICIALIZAR MATRIZ */
+	FOREACH row 1,numeroIntervalos
+   		FOREACH col 1,numeroIntervalos
+      			CONCAT frecuenciasObsv matriz[row][col] frecuenciasObsv
+		END
+   	END
+END
+
+NEWCMD getFreqEsp archivoDatos numeroIntervalos freqEsperada
+	SIZE archivoDatos sizeDatos
+	cajitas = numeroIntervalos*numeroIntervalos
+	freqEsperadaValor = ((sizeDatos - 1)/ (numeroIntervalos*numeroIntervalos))
+	REPEAT cajitas
+		CONCAT freqEsperada freqEsperadaValor freqEsperada
+	END
+END
+
+READ archivoDatos
+emparejarDatos archivoDatos 5 res	
+getFreqEsp archivoDatos 5 res1
+PRINT res
+PRINT res1
