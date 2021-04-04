@@ -1,0 +1,123 @@
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Pruebas de Ji Cuadrado
+
+
+
+
+
+|
+| Pruebas de Ajuste de "Ji Cuadrado".
+|
+
+En la presente tarea se desea hacer un programa, utilizando Statistics101, que realice una prueba de ajuste de "Ji Cuadrado" con un conjunto de datos. Los datos corresponden a una distribución Normal.
+
+
+
+
+
+|
+| Desarrollo del Programa.
+|
+
+
+Se deben realizar las siguientes tareas.
+
+• Leer los datos de muestra.
+  Calcular el promedio con los datos del archivo.
+  Calcular la desviación estándar con los datos del archivo.
+
+• Leer el tamaño del intervalo.
+
+• Agruparlos de acuerdo a un intervalo.
+
+• Contar las frecuencias observadas.
+
+• Calcular las frecuencias esperadas.
+
+• Quitar los datos que no deben incluirse en la prueba.
+
+• Calcular el valor de chi cuadrado subcero.
+
+
+
+
+
+|
+| Un Regalo.
+|
+
+
+
+
+Este procedimiento para encontrar la probabilidad normal dentro de un intervalo.
+
+
+
+
+'*****
+'Calcula la probabilidad
+'de una distribución normal
+'dentro del rango
+
+newcmd probNormalRango limInf limSup promedio desviación prob
+       normalprob limInf promedio desviación probInf
+       normalprob limSup promedio desviación probSup
+       prob = probSup - probInf
+end
+  
+
+
+
+
+
+|
+| Rúbrica de calificación.
+|
+
+Deberá entregar su tarea en Texto. La tarea debe incluir.
+
+* Nombre y carné de los miembros del grupo.
+
+* La respuesta correcta, del archivo de prueba con intervalos de tamaño 1 y 2.
+
+* El código fuente de la simulación.
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
+
+
+Se evalúa que el código esté debidamente programado, facilidad, buenas técnicas de programación y eficiencia. Todos estos factores se medirán contra el código que haya diseñado el profesor. Se debe entregar la tarea con al menos 2 dígitos de precisión en la respuesta.
+
+
+
+
+
+
+
+
+|
+| Bibliografía.
+|
+
+
+Apuntes de clase
+http://www.statistics101.net/IntroToResamplingTextbook/IntroTextLinks.html
+

@@ -1,0 +1,48 @@
+﻿Please enter intervalo: 1000
+
+
+promedio: 2472.222222222222
+desviación: 1095.6009322994237
+
+
+tamañoMuestra: 180.0
+
+binInicio     	binFinal      	freqObservada 
+0,0E00        	1000          	20            	
+1000          	2000          	35            	
+2000          	3000          	70            	
+3000          	4000          	40            	
+4000          	5000          	15            	
+5000          	6000          	0,0E00        	
+
+binInicio     	binFinal      	freqObservada 
+0,0E00        	1000          	20            	
+1000          	2000          	35            	
+2000          	3000          	70            	
+3000          	4000          	40            	
+4000          	5000          	15            	
+
+probEsperada	freqEsperada
+0,0775  	13,9489 	
+0,2437  	43,8687 	
+0,3518  	63,3188 	
+0,2334  	42,0142 	
+0,0711  	12,792  	
+
+
+binInicio	freqObservada 	freqEsperada
+0       	20            	13,9489 	
+1000    	35            	43,8687 	
+2000    	70            	63,3188 	
+3000    	40            	42,0142 	
+4000    	15            	12,792  	
+
+
+newBin  	newFo         	newFe         
+0       	20            	13,94886      	
+1000    	35            	43,868658     	
+2000    	70            	63,318783     	
+3000    	40            	42,014217     	
+4000    	15            	12,792038     	
+
+chiCuad: 5.600611921850552
