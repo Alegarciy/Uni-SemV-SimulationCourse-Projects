@@ -20,12 +20,12 @@ NEWCMD calcularLimites datos tamañoIntervalo _limitesInferiores _limitesSuperior
 	MIN datos minimo
 	MAX datos maximo
 	limInferior = 0
-	// Se calcula el límite inferior más bajo cuyo intervalo tenga frecuencia observada distinta de cero
+	/* Se calcula el límite inferior más bajo cuyo intervalo tenga frecuencia observada distinta de cero */
 	WHILE minimo - limInferior >= tamañoIntervalo
 		limInferior = limInferior + tamañoIntervalo
 	END
 	limSuperior = limInferior + tamañoIntervalo
-	// Se calcula el límite superior más alto cuyo intervalo tenga frecuencia observada distinta de cero
+	/* Se calcula el límite superior más alto cuyo intervalo tenga frecuencia observada distinta de cero */
 	WHILE limSuperior < maximo
 		CONCAT _limitesInferiores limInferior _limitesInferiores
 		CONCAT _limitesSuperiores limSuperior _limitesSuperiores
@@ -45,7 +45,7 @@ NEWCMD calcularFrecObs datos limitesSuperiores _frecuenciasObs
 	FOREACH dato datos
 		numeroIntervalo = 1
 		TAKE limitesSuperiores numeroIntervalo limiteSup
-		// Se determina el intervalo de los datos comparandolos con limites superiores ascendentemente
+		/* Se determina el intervalo de los datos comparandolos con limites superiores ascendentementen */
 		WHILE dato > limiteSup
 			numeroIntervalo = numeroIntervalo + 1
 			TAKE limitesSuperiores numeroIntervalo limiteSup
@@ -54,10 +54,44 @@ NEWCMD calcularFrecObs datos limitesSuperiores _frecuenciasObs
 		COPY numeroIntervalo#0 1 0 posicion
 		ADD _frecuenciasObs posicion _frecuenciasObs 
 	END
-	// Remueve el cero sobrante al final de la lista de Fo, como resultado de la cuenta de las frecuencias
+	/* Remueve el cero sobrante al final de la lista de Fo, como resultado de la cuenta de las frecuencias */
 	sobrante = cantidadInvervalos + 1
 	REMOVE _frecuenciasObs sobrante _frecuenciasObs
-END  
+END
+
+/ * Determina la probabilidad acumilada de un intervalo */
+newcmd probNormalRango limInf limSup promedio desviación prob
+       normalprob limInf promedio desviación probInf
+       normalprob limSup promedio desviación probSup
+       prob = probSup - probInf
+end
+
+/* calcula la probabilidad esperada y frecuencia esperada */
+newcmd probabilidadEsperada limitesInf limitesSup promedio desviacion datos _probabilidadesEsperadas _frecuenciasEsperadas
+	SIZE limitesSup cantidadInvervalos
+	SIZE datos cantidadDatos
+	numeroIntervalo = 1
+	
+	WHILE cantidadInvervalos >= numeroIntervalo
+		TAKE limitesSup numeroIntervalo limiteSup 
+		TAKE limitesInf numeroIntervalo limiteInf
+		probNormalRango limiteInf limiteSup promedio desviacion probAcumulada
+		frecuenciaEsperada = probAcumulada * cantidadDatos
+		CONCAT _frecuenciasEsperadas frecuenciaEsperada _frecuenciasEsperadas
+		CONCAT _probabilidadesEsperadas probAcumulada _probabilidadesEsperadas
+		numeroIntervalo = numeroIntervalo + 1
+	END
+
+end
+
+/* 
+Calcula el valor de chi cuadrado subcero
+*/
+NEWCMD getChiSquare Fo Fe chiSquareResult
+chisquare Fo Fe chiSquareResult
+END
+
+   
 
 
 
@@ -65,6 +99,8 @@ END
 leerDatos datos promedio desviacion tamañoIntervalo tamañoMuestra
 calcularLimites datos tamañoIntervalo limitesInf limitesSup
 calcularFrecObs datos limitesSup frecuenciasObs
+probabilidadEsperada limitesInf limitesSup promedio desviacion datos probabilidadEsp fecuenciaEsp
+getChiSquare frecuenciasObs fecuenciaEsp chiCuad
 PRINT
 PRINT tamañoMuestra
 PRINT
@@ -72,3 +108,9 @@ PRINT promedio
 PRINT desviacion
 PRINT
 PRINT TABLE limitesInf limitesSup frecuenciasObs
+PRINT
+PRINT TABLE probabilidadEsp fecuenciaEsp
+PRINT
+PRINT chiCuad
+
+
