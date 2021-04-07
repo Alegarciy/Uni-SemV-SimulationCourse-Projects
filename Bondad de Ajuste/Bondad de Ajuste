@@ -1,0 +1,74 @@
+CLEAROUTPUT
+
+/* SUBRUTINAS */
+
+/* 
+Lee el archivo de datos y el tamaño de los intervalos, calcula el promedio, la desviación y el tamaño de muestra
+*/
+NEWCMD leerDatos _datos _promedio _desviacion _tamañoIntervalo _tamañoMuestra
+	READ _datos
+	MEAN _datos _promedio
+	STDEV _datos _desviacion
+	INPUT _tamañoIntervalo
+	SIZE _datos _tamañoMuestra
+END 
+
+/* 
+Determina los límites de los intervalos a utilizar
+*/
+NEWCMD calcularLimites datos tamañoIntervalo _limitesInferiores _limitesSuperiores
+	MIN datos minimo
+	MAX datos maximo
+	limInferior = 0
+	// Se calcula el límite inferior más bajo cuyo intervalo tenga frecuencia observada distinta de cero
+	WHILE minimo - limInferior >= tamañoIntervalo
+		limInferior = limInferior + tamañoIntervalo
+	END
+	limSuperior = limInferior + tamañoIntervalo
+	// Se calcula el límite superior más alto cuyo intervalo tenga frecuencia observada distinta de cero
+	WHILE limSuperior < maximo
+		CONCAT _limitesInferiores limInferior _limitesInferiores
+		CONCAT _limitesSuperiores limSuperior _limitesSuperiores
+		limInferior = limInferior + tamañoIntervalo
+		limSuperior = limInferior + tamañoIntervalo
+	END
+	CONCAT _limitesInferiores limInferior _limitesInferiores
+	CONCAT _limitesSuperiores limSuperior _limitesSuperiores
+END
+
+/* 
+Calcula las frecuencias observadas de cada intervalo
+*/
+NEWCMD calcularFrecObs datos limitesSuperiores _frecuenciasObs
+	SIZE limitesSuperiores cantidadInvervalos
+	COPY cantidadInvervalos#0 _frecuenciasObs
+	FOREACH dato datos
+		numeroIntervalo = 1
+		TAKE limitesSuperiores numeroIntervalo limiteSup
+		// Se determina el intervalo de los datos comparandolos con limites superiores ascendentemente
+		WHILE dato > limiteSup
+			numeroIntervalo = numeroIntervalo + 1
+			TAKE limitesSuperiores numeroIntervalo limiteSup
+		END
+		numeroIntervalo = numeroIntervalo - 1
+		COPY numeroIntervalo#0 1 0 posicion
+		ADD _frecuenciasObs posicion _frecuenciasObs 
+	END
+	// Remueve el cero sobrante al final de la lista de Fo, como resultado de la cuenta de las frecuencias
+	sobrante = cantidadInvervalos + 1
+	REMOVE _frecuenciasObs sobrante _frecuenciasObs
+END  
+
+
+
+/* MAIN */
+leerDatos datos promedio desviacion tamañoIntervalo tamañoMuestra
+calcularLimites datos tamañoIntervalo limitesInf limitesSup
+calcularFrecObs datos limitesSup frecuenciasObs
+PRINT
+PRINT tamañoMuestra
+PRINT
+PRINT promedio
+PRINT desviacion
+PRINT
+PRINT TABLE limitesInf limitesSup frecuenciasObs
