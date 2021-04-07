@@ -67,18 +67,29 @@ newcmd probNormalRango limInf limSup promedio desviación prob
 end
 
 /* calcula la probabilidad esperada y frecuencia esperada */
-newcmd probabilidadEsperada limitesInf limitesSup promedio desviacion datos _probabilidadesEsperadas _frecuenciasEsperadas
+newcmd probabilidadEsperada limitesInf limitesSup promedio desviacion datos _frecuenciasObservadas _probabilidadesEsperadas _frecuenciasEsperadas
 	SIZE limitesSup cantidadInvervalos
 	SIZE datos cantidadDatos
 	numeroIntervalo = 1
+	borrados = 0
 	
 	WHILE cantidadInvervalos >= numeroIntervalo
 		TAKE limitesSup numeroIntervalo limiteSup 
 		TAKE limitesInf numeroIntervalo limiteInf
 		probNormalRango limiteInf limiteSup promedio desviacion probAcumulada
 		frecuenciaEsperada = probAcumulada * cantidadDatos
+
+		IF frecuenciaEsperada > 5
+			CONCAT _frecuenciasEsperadas frecuenciaEsperada _frecuenciasEsperadas
+			CONCAT _probabilidadesEsperadas probAcumulada _probabilidadesEsperadas
+		ELSE
+			numeroIntervaloBorrar = numeroIntervalo - borrados
+			REMOVE _frecuenciasObservadas  numeroIntervaloBorrar _frecuenciasObservadas
+			borrados = borrados + 1
+		END
+		/*
 		CONCAT _frecuenciasEsperadas frecuenciaEsperada _frecuenciasEsperadas
-		CONCAT _probabilidadesEsperadas probAcumulada _probabilidadesEsperadas
+		CONCAT _probabilidadesEsperadas probAcumulada _probabilidadesEsperadas */
 		numeroIntervalo = numeroIntervalo + 1
 	END
 
@@ -99,8 +110,6 @@ END
 leerDatos datos promedio desviacion tamañoIntervalo tamañoMuestra
 calcularLimites datos tamañoIntervalo limitesInf limitesSup
 calcularFrecObs datos limitesSup frecuenciasObs
-probabilidadEsperada limitesInf limitesSup promedio desviacion datos probabilidadEsp fecuenciaEsp
-getChiSquare frecuenciasObs fecuenciaEsp chiCuad
 PRINT
 PRINT tamañoMuestra
 PRINT
@@ -109,7 +118,9 @@ PRINT desviacion
 PRINT
 PRINT TABLE limitesInf limitesSup frecuenciasObs
 PRINT
-PRINT TABLE probabilidadEsp fecuenciaEsp
+probabilidadEsperada limitesInf limitesSup promedio desviacion datos frecuenciasObs probabilidadEsp fecuenciaEsp
+getChiSquare frecuenciasObs fecuenciaEsp chiCuad
+PRINT TABLE probabilidadEsp fecuenciaEsp frecuenciasObs
 PRINT
 PRINT chiCuad
 
