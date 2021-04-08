@@ -1,0 +1,94 @@
+
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Pruebas de KS para una Exponencial
+
+
+
+
+
+
+
+|
+| Introducción.
+|
+
+
+En la presente tarea se desea hacer un programa, utilizando Statistics101, que realice una prueba de ajuste de Kolmogorov Smirnov con un conjunto de datos. Los datos corresponden a una distribución exponencial.
+
+
+
+
+
+|
+| Desarrollo del Programa.
+|
+
+
+Se deben realizar las siguientes tareas.
+
+● Leer los datos de muestra.
+
+● Leer el tamaño del intervalo.
+
+● Agruparlos de acuerdo a un intervalo.
+
+● Calcular la probabilidad observada acumulada.
+
+● Calcular la probabilidad esperada acumulada.
+
+● Calcular el valor "d" de KS.
+
+
+
+
+
+|
+| Rúbrica de calificación.
+|
+
+Deberá entregar su tarea en Texto. La tarea debe incluir.
+
+* Nombre y carné de los miembros del grupo.
+
+* La respuesta correcta, del archivo de prueba con intervalos de tamaño 2 y 3.
+
+* El código fuente de la simulación.
+
+
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
+
+
+Se evalúa que el código esté debidamente programado, facilidad, buenas técnicas de programación y eficiencia. Todos estos factores se medirán contra el código que haya diseñado el profesor. Se debe entregar la tarea con al menos 2 dígitos de precisión en la respuesta.
+ 
+
+
+
+
+|
+| Bibliografía.
+|
+
+
+Apuntes de clase
+
+http://www.statistics101.net/IntroToResamplingTextbook/IntroTextLinks.html
