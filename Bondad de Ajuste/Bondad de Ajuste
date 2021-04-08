@@ -1,3 +1,18 @@
+/*
+Tecnologico de Costa Rica, Escuela de Computacion, Ingenieria en Computacion
+Curso de Simulacion, I Semestre 2021
+Tarea de Pruebas de Series
+Joseph Tenorio Pereira (2019064588) y Alejandro Garcia Bejarano (2019380047) 
+
+Deseamos construir un programa que realiza un ajuste de chi cuadrado sobre un conjunto de datos que se presume
+vienen de una distribución normal.
+
+Valor chi cuadrado obtenido con los datos de muestra e intervalos de tamaño 1: 33.283732
+Valor chi cuadrado obtenido con los datos de muestra e intervalos de tamaño 2: 16.420984
+*/
+
+/*-----------------------------------------Codigo Fuente de la simulacion-----------------------------------------*/
+
 CLEAROUTPUT
 
 /* SUBRUTINAS */
@@ -59,14 +74,18 @@ NEWCMD calcularFrecObs datos limitesSuperiores _frecuenciasObs
 	REMOVE _frecuenciasObs sobrante _frecuenciasObs
 END
 
-/ * Determina la probabilidad acumilada de un intervalo */
+/* 
+Determina la probabilidad acumilada de un intervalo 
+*/
 newcmd probNormalRango limInf limSup promedio desviación prob
        normalprob limInf promedio desviación probInf
        normalprob limSup promedio desviación probSup
        prob = probSup - probInf
 end
 
-/* calcula la probabilidad esperada y frecuencia esperada */
+/* 
+Calcula la probabilidad esperada y frecuencia esperada 
+*/
 newcmd probabilidadEsperada limitesInf limitesSup promedio desviacion datos _frecuenciasObservadas _probabilidadesEsperadas _frecuenciasEsperadas
 	SIZE limitesSup cantidadInvervalos
 	SIZE datos cantidadDatos
@@ -92,8 +111,7 @@ newcmd probabilidadEsperada limitesInf limitesSup promedio desviacion datos _fre
 		CONCAT _probabilidadesEsperadas probAcumulada _probabilidadesEsperadas */
 		numeroIntervalo = numeroIntervalo + 1
 	END
-
-end
+END
 
 /* 
 Calcula el valor de chi cuadrado subcero
@@ -101,9 +119,6 @@ Calcula el valor de chi cuadrado subcero
 NEWCMD getChiSquare Fo Fe chiSquareResult
 chisquare Fo Fe chiSquareResult
 END
-
-   
-
 
 
 /* MAIN */
@@ -123,5 +138,3 @@ getChiSquare frecuenciasObs fecuenciaEsp chiCuad
 PRINT TABLE probabilidadEsp fecuenciaEsp frecuenciasObs
 PRINT
 PRINT chiCuad
-
-
