@@ -1,0 +1,97 @@
+  
+/*
+Tecnologico de Costa Rica, Escuela de Computacion, Ingenieria en Computacion
+Curso de Simulacion, I Semestre 2021
+Tarea de KS
+Joseph Tenorio Pereira (2019064588) y Alejandro Garcia Bejarano (2019380047) 
+
+Deseamos construir un programa que realiza un ajuste de chi cuadrado sobre un conjunto de datos que se presume
+vienen de una distribución normal.
+*/
+
+/*-----------------------------------------Codigo Fuente de la simulacion-----------------------------------------*/
+
+CLEAROUTPUT
+
+/* SUBRUTINAS */
+
+/* 
+Lee el archivo de datos y el tamaño de los intervalos, calcula el promedio, la desviación y el tamaño de muestra
+*/
+NEWCMD leerDatos _datos _tamañoIntervalo _tamañoMuestra
+	READ _datos
+	INPUT _tamañoIntervalo
+	SIZE _datos _tamañoMuestra
+END 
+
+/* 
+Determina los límites de los intervalos a utilizar
+*/
+NEWCMD calcularLimites datos tamañoIntervalo _limitesInferiores _limitesSuperiores
+	MIN datos minimo
+	MAX datos maximo
+	limInferior = 0
+	/* Se calcula el límite inferior más bajo cuyo intervalo tenga frecuencia observada distinta de cero */
+	WHILE minimo - limInferior >= tamañoIntervalo
+		limInferior = limInferior + tamañoIntervalo
+	END
+	limSuperior = limInferior + tamañoIntervalo
+	/* Se calcula el límite superior más alto cuyo intervalo tenga frecuencia observada distinta de cero */
+	WHILE limSuperior < maximo
+		CONCAT _limitesInferiores limInferior _limitesInferiores
+		CONCAT _limitesSuperiores limSuperior _limitesSuperiores
+		limInferior = limInferior + tamañoIntervalo
+		limSuperior = limInferior + tamañoIntervalo
+	END
+	CONCAT _limitesInferiores limInferior _limitesInferiores
+	CONCAT _limitesSuperiores limSuperior _limitesSuperiores
+END
+
+/* 
+Calcula las frecuencias observadas de cada intervalo
+*/
+NEWCMD calcularFrecObs datos limitesSuperiores _frecuenciasObs
+	SIZE limitesSuperiores cantidadInvervalos
+	COPY cantidadInvervalos#0 _frecuenciasObs
+	FOREACH dato datos
+		numeroIntervalo = 1
+		TAKE limitesSuperiores numeroIntervalo limiteSup
+		/* Se determina el intervalo de los datos comparandolos con limites superiores ascendentementen */
+		WHILE dato > limiteSup
+			numeroIntervalo = numeroIntervalo + 1
+			TAKE limitesSuperiores numeroIntervalo limiteSup
+		END
+		numeroIntervalo = numeroIntervalo - 1
+		COPY numeroIntervalo#0 1 0 posicion
+		ADD _frecuenciasObs posicion _frecuenciasObs 
+	END
+	/* Remueve el cero sobrante al final de la lista de Fo, como resultado de la cuenta de las frecuencias */
+	sobrante = cantidadInvervalos + 1
+	REMOVE _frecuenciasObs sobrante _frecuenciasObs
+END
+
+NEWCMD calcularFrecAcum frecuenciasObs _frecuenciaAcum _probabilidadAcum
+	acum = 0
+	pacum = 0
+	SUM frecuenciasObs sumatoria
+	FOREACH frecuencia frecuenciasObs
+		acum = acum + frecuencia
+		pacum = acum / sumatoria 
+		CONCAT _frecuenciaAcum acum _frecuenciaAcum
+		CONCAT _probabilidadAcum pacum _probabilidadAcum
+	END
+END
+
+leerDatos datos tamañoIntervalo tamañoMuestra
+calcularLimites datos tamañoIntervalo limitesInf limitesSup
+calcularFrecObs datos limitesSup frecuenciasObs
+calcularFrecAcum frecuenciasObs frecuenciaAcum probabilidadAcum
+PRINT
+PRINT tamañoMuestra
+PRINT
+PRINT TABLE limitesInf limitesSup frecuenciasObs frecuenciaAcum probabilidadAcum
+
+
+
+
+
