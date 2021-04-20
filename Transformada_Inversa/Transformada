@@ -1,0 +1,28 @@
+'*** 
+'Algoritmo de transformacion de inversa
+
+newcmd generaIU x
+	uniform 1 0 1 r
+	if 0 <= r and r < 0.50
+		x = 1 - (1 - 2*r) ^ (1/3)
+	else
+		x = sqrt(2) * sqrt(abs( 3 * r - 1))
+	end
+end
+'***
+'Programa
+
+input muestra
+input intervalos
+rango = 2/intervalos
+
+repeat muestra
+	generaIU x
+	score x data
+end
+
+HISTOGRAM density binsize 0.02 data
+
+'****
+'Mostrar resultado
+CLEAROUTPUT

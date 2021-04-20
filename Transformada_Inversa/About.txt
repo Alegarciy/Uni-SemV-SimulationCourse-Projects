@@ -1,0 +1,137 @@
+
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Transformada Inversa
+
+
+
+
+|
+| Introducción.
+|
+
+
+En la presente tarea se desea programar la transformada inversa de una densidad de probabilidad.
+
+
+
+
+
+|
+| Descripción del Problema:
+|
+
+
+Utilice el método de la transformada inversa, y construya un programa con Statisctics101 para generar muestras aleatorias de la siguiente distribución de probabilidad y presentar un histograma.
+
+
+         ⎧    0               si x < 0
+         ⎪  
+f(x)  =  ⎨    (3/2)*(x-1)²    si 0 ≤ x < 1
+         ⎪  
+         ⎩    x/3             si 1 ≤ x < 2  
+
+
+
+
+
+
+
+|
+| Desarrollo del Programa.
+|
+
+
+Se deben realizar las siguientes tareas.
+
+● Leer la cantidad de datos a generar: "muestra"
+
+● Leer el número de intervalos histograma: "n"
+
+● Generar los datos utilizando la transformada inversa de f(x)
+
+● Agruparlos en los "n" intervalos.
+
+● Presentar el histograma respectivo.
+
+
+|
+| Cuidado un "Bug".
+|
+
+
+p = 9^(1/3)
+print p
+-----
+p: 2.080083823051904
+
+
+Pero:
+
+p = -9^(1/3)
+print p
+-----
+p: NaN
+
+
+p = (-9)^(1/3)
+print p
+-----
+p: NaN
+
+
+Elevar a potencias de 1/3, o sacar raíz cúbica, produce un error con números negativos!!!
+
+
+
+
+
+|
+| Rúbrica de calificación.
+|
+
+Deberá entregar su tarea en Texto. La tarea debe incluir.
+
+* Nombre y carné de los miembros del grupo.
+
+* La respuesta correcta, del archivo de prueba con intervalos de tamaño 2 y 3.
+
+* El código fuente de la simulación.
+
+
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
+
+
+Se evalúa que el código esté debidamente programado, facilidad, buenas técnicas de programación y eficiencia. Todos estos factores se medirán contra el código que haya diseñado el profesor. Se debe entregar la tarea con al menos 2 dígitos de precisión en la respuesta. 
+
+
+ 
+
+
+|
+| Bibliografía.
+|
+
+
+* Apuntes de clase
+
+* http://www.statistics101.net/IntroToResamplingTextbook/IntroTextLinks.html
