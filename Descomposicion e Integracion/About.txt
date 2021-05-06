@@ -1,0 +1,208 @@
+_____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Descomposición e Integración
+
+
+
+
+|
+| Introducción.
+|
+
+
+En la presente tarea se desea programar descomposición e integración para generar variables aleatorias continuas.
+
+
+
+
+|
+| Descripción del Problema:
+|
+
+Se desea estudiar el método de Descomposición e integración. En grandes rasgos, se debe pedir un límite superior e inferior. Estos límites se parten en intervalos, y a cada intervalo se le aplica la Regla de Simpson para calcular su área. Posteriormente con cada una de estas áreas se utiliza un proceso de Transformada inversa. 
+
+Este método busca básicamente "discretizar" una función continua.
+ 
+
+
+|
+| Desarrollo del Programa.
+|
+
+
+Se deben realizar las siguientes tareas.
+
+Pedir Input del límite inferior.
+Pedir Input del límite superior.
+Pedir Input del número de intervalos a usar.
+Pedir Input del número de particiones de Simpson a usar en cada intervalo.
+Pedir Input del tamaño de la muestra a generar.
+
+En el programa se verá así:
+
+clearoutput
+input "Límite Inferior                 :" limInf
+input "Límite Superior                 :" limSup
+input "Número intervalos               :" n
+input "Particiones Simpson (número par):" nSimpson
+input "Tamaño de Muestra               :" tamañoMuestra 
+h = (limSup - limInf) / n
+
+
+
+Utilizar la Regla de Simpson en cada intervalo, para estimar su área.
+Calcular las área acumuladas.
+Usar transformada inversa para generar las observaciones, recuerde que en este caso la transformada inversa produce el número central del intervalo.
+
+Imprimir áreas con el punto medio del intervalo.
+Imprimir áreas acumuladas con el punto medio del intervalo
+Generar un histograma de las observaciones.
+
+Pueden ver el ejemplo que sigue.
+
+
+|
+| Unos Valores para pruebas
+|
+
+
+Si se utiliza esta función. Se supondrá que siempre tendrá un código correcto con la función a estudiar. Debe ponerse de primera en el código, después de los comentarios y documentación. 
+
+La salida del programa debe ser exactamente como se muestra a continuación.
+
+
+'*****
+' Una función de Prueba Muy Sencilla
+' en [0,3[
+
+newcmd fun x y
+   y = (x^2)/9
+end
+
+Con las siguientes entradas:
+
+Límite Inferior                 :0
+Límite Superior                 :3
+Número intervalos               :3
+Particiones Simpson (número par):4
+Tamaño de Muestra               :10000
+
+fx            ptos          
+0.037          0.5               
+0.2593    1.5               
+0.7037    2.5               
+
+
+fxAcum    ptos          
+0.037          0.5               
+0.2963    1.5               
+1             2.5               
+
+
+Se produce este histograma
+
+
+
+
+
+|
+| Algunas Funciones para probar el programa.
+|
+
+
+
+
+'*****
+' Una función de Prueba Muy Sencilla
+' en [0,3[
+
+newcmd fun x y
+   y = (x^2)/9
+end
+
+
+
+
+'*****
+' Una Triangular 
+' en [0,3[
+
+newcmd fun x y
+   if 0 <= x and x <= 1
+      y = (2*x)/3
+   elseif 1 <= x and x <= 3
+      y = (6 - 2*x)/6
+   else 
+      y = 0
+   end
+end
+
+
+
+
+'*****
+' Una Parábola
+' en [0,1[
+
+newcmd fun x y
+   y = 6*x - 6*x^2
+end
+
+
+
+
+
+|
+| Esquema de calificación.
+|
+
+
+
+
+Deberá entregar su tarea en Texto. La tarea debe incluir.
+
+• Nombre y carné de los miembros del grupo.
+
+• Se cambiará el código de "newcmd fun" para poner nuevas funciones y realizar las pruebas. Cualquier otro cambio que sea necesario realizar, o si no se siguen estas indicaciones al pie de la letra implicará una nota de "0".
+
+• La salida del programa debe ser "exactamente" como este ejemplo, de lo contrario tendrá una nota de 0.
+
+
+
+
+
+
+
+Criterios.
+
+- Seguir adecuadamente el algoritmo de la tarea (20pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         20pts
+
+- Programación correcta y eficiente (50pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         50pts
+
+- Suficientes simulaciones y respuesta correcta (30pts)
+No logra el objetivo.  0pts.
+Está incompleto        0pts
+Está completo         30pts
+
+Además se evalúa el código debidamente programada, facilidad, buenas técnicas de programación y eficiencia. Todos estos factores se medirán contra el código que haya diseñado el profesor. Se debe entregar la tarea con al menos 4 dígitos de precisión en la respuesta. 
+
+
+
+
+
+|
+| Bibliografía.
+|
+
+
+Apuntes de clase, del capítulo de "Capítulo 6: Variables Aleatorias No Uniformes".
+
+http://www.statistics101.net/IntroToResamplingTextbook/IntroTextLinks.html

@@ -1,0 +1,97 @@
+/* LIMPIEZA DE LA CONSOLA */
+CLEAROUTPUT
+
+
+
+/* SUBRUTINAS */
+
+/*
+'Funcion a descomponer e integrar (prueba 1: About.txt)
+NEWCMD fun x y
+   y = (x^2)/9
+END
+*/
+
+'Funcion a descomponer e integrar (prueba 2: PDF de descomposicion e integracion)
+NEWCMD fun x y
+   IF x >= 0 AND x <= 1
+	y = (2*x)/3
+   ELSE
+	y = (6 - 2*x)/6
+   END
+END
+
+'Calcula los factores del calculo de la regla Simpson 
+NEWCMD factoresSimpson n _factores
+	i = n
+	_factores = 1
+	WHILE i <> 1
+		REMAINDER i 2 esPar
+		IF esPar = 0
+			CONCAT _factores 4 _factores
+		ELSE
+			CONCAT _factores 2 _factores
+		END
+		i = i - 1
+	END
+	CONCAT _factores 1 _factores
+END
+
+'Calcula los limites inferiores, limites superiores y los puntos medios de los intervalos de descomposicion e integracion
+NEWCMD intervalosDescompInte limInf limSup n _limInfs _limSups _ptosMedios
+	h = (limSup - limInf) / n
+	inferior = limInf
+	superior = limInf + h
+	medio = inferior + h/2
+	WHILE superior =< limSup
+		CONCAT _limInfs inferior _limInfs 
+		CONCAT _limSups superior _limSups
+		CONCAT _ptosMedios medio _ptosMedios 
+		inferior = superior
+		superior = superior + h
+		medio = inferior + h/2
+	END
+END
+
+'Calcula el area de un intervalo de una funcion por medio de la regla de Simpson
+NEWCMD areaSimpson limInf limSup nSimpson _area
+	h = (limSup - limInf) / nSimpson
+	factoresSimpson nSimpson factores
+	i = 0
+	suma = 0
+	FOREACH factor factores
+		x = limInf + i * h
+		fun x y
+		suma = suma + (factor * y) 
+		i = i + 1
+	END
+	_area = (h/3) * suma
+END
+
+
+'Calcula las areas y areas acumuladas de las particiones de descomposicion e integracion por medio de la regla de Simpson
+NEWCMD areasSimpson limInfs limSups n nSimpson _areas _areasAcumuladas
+	i = 1
+	areasAcumuladas = 0
+	WHILE i <= n
+		TAKE limInfs i inferior	
+		TAKE limSups i superior
+		areaSimpson inferior superior nSimpson area
+		areasAcumuladas = areasAcumuladas + area
+		CONCAT _areas area _areas 
+		CONCAT _areasAcumuladas areasAcumuladas _areasAcumuladas
+		i = i + 1 
+	END	
+END
+
+
+/* MAIN */
+INPUT "Límite Inferior                 :" limInf
+INPUT "Límite Superior                 :" limSup
+INPUT "Número intervalos               :" n
+INPUT "Particiones Simpson (número par):" nSimpson
+INPUT "Tamaño de Muestra               :" tamañoMuestra
+intervalosDescompInte limInf limSup n limInfs limSups ptosMedios
+areasSimpson limInfs limSups n nSimpson areasSimpson areasAcumSimpson
+print TABLE limInfs limSups ptosMedios areasSimpson areasAcumSimpson
+
