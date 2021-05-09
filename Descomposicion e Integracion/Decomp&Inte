@@ -5,13 +5,13 @@ CLEAROUTPUT
 
 /* SUBRUTINAS */
 
-/*
+
 'Funcion a descomponer e integrar (prueba 1: About.txt)
 NEWCMD fun x y
    y = (x^2)/9
 END
-*/
 
+/*
 'Funcion a descomponer e integrar (prueba 2: PDF de descomposicion e integracion)
 NEWCMD fun x y
    IF x >= 0 AND x <= 1
@@ -20,6 +20,7 @@ NEWCMD fun x y
 	y = (6 - 2*x)/6
    END
 END
+*/
 
 'Calcula los factores del calculo de la regla Simpson 
 NEWCMD factoresSimpson n _factores
@@ -38,7 +39,7 @@ NEWCMD factoresSimpson n _factores
 END
 
 'Calcula los limites inferiores, limites superiores y los puntos medios de los intervalos de descomposicion e integracion
-NEWCMD intervalosDescompInte limInf limSup n _limInfs _limSups _ptosMedios
+NEWCMD intervalosDescompInte limInf limSup n _limInfs _limSups _ptosMedios h
 	h = (limSup - limInf) / n
 	inferior = limInf
 	superior = limInf + h
@@ -84,6 +85,27 @@ NEWCMD areasSimpson limInfs limSups n nSimpson _areas _areasAcumuladas
 	END	
 END
 
+NEWCMD getTransformadaInversa areasAcumSimpson ptosMedios valorEntrada _valorInversa
+	numeroIntervalo = 1
+	lim_inferior = 0
+	lim_superior = 0
+	FOREACH lim_superior areasAcumSimpson
+		IF valorEntrada >= lim_inferior AND valorEntrada < lim_superior
+			TAKE ptosMedios numeroIntervalo _valorInversa
+		END
+		numeroIntervalo = numeroIntervalo + 1
+		lim_inferior = lim_superior
+	END
+END
+
+NEWCMD generarDatos areasAcumSimpson ptosMedios tamanoDatos _datosResultantes
+	UNIFORM tamanoDatos 0 1 datos
+	FOREACH dato datos
+		getTransformadaInversa areasAcumSimpson ptosMedios dato datoTransformado
+		CONCAT datoTransformado _datosResultantes _datosResultantes
+	END
+	print _datosResultantes
+END
 
 /* MAIN */
 INPUT "Límite Inferior                 :" limInf
@@ -91,7 +113,9 @@ INPUT "Límite Superior                 :" limSup
 INPUT "Número intervalos               :" n
 INPUT "Particiones Simpson (número par):" nSimpson
 INPUT "Tamaño de Muestra               :" tamañoMuestra
-intervalosDescompInte limInf limSup n limInfs limSups ptosMedios
+intervalosDescompInte limInf limSup n limInfs limSups ptosMedios h
 areasSimpson limInfs limSups n nSimpson areasSimpson areasAcumSimpson
 print TABLE limInfs limSups ptosMedios areasSimpson areasAcumSimpson
+generarDatos areasAcumSimpson ptosMedios tamañoMuestra _datosResultantes
+HISTOGRAM binsize h _datosResultantes
 
