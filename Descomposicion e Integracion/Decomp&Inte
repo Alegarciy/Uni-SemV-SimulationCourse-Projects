@@ -15,7 +15,7 @@ CLEAROUTPUT
 
 'Funcion a descomponer e integrar para generar variables aleatorias continuas
 NEWCMD fun x y
-   y = (x^2)/9
+   y = 6*x - 6*x^2
 END
 
 'Calcula los factores del calculo de la regla Simpson 
@@ -40,12 +40,14 @@ NEWCMD intervalosDescompInte limInf limSup n _limInfs _limSups _ptosMedios h
 	inferior = limInf
 	superior = limInf + h
 	medio = inferior + h/2
-	WHILE superior =< limSup
+	tamanoActual = 0
+	WHILE  tamanoActual <> n
 		CONCAT _limInfs inferior _limInfs 
 		CONCAT _limSups superior _limSups
 		CONCAT _ptosMedios medio _ptosMedios 
 		inferior = superior
 		superior = superior + h
+		SIZE _limInfs tamanoActual
 		medio = inferior + h/2
 	END
 END
