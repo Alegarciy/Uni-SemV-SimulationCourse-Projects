@@ -4,6 +4,31 @@ NEWCMD getCantidadPedidos pedidos
 	POISSON 1 7 pedidos
 END
 
+NEWCMD laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega cantidadPorOrdenar _cantidadUnidadesInventarioI _hayPedido _diasEntrega _cantidadPedidos _cantidadUnidadesInventarioF
+	
+	/* Generar Peidios */
+	getCantidadPedidos pedidos
+	_cantidadPedidos = pedidos
 
+	/* Asignacion de variables */
+	_cantidadUnidadesInventarioI = cantidadUnidadesInventarioI
+	_cantidadUnidadesInventarioF = cantidadUnidadesInventarioI
+	_hayPedido = hayPedido
+
+	/* Revisar si se necesita hacer re-fill */
+	IF diasEntrega > 1 
+		_diasEntrega = diasEntrega - 1 
+	ELSE
+		IF diasEntrega = 1
+			 _cantidadUnidadesInventarioF = _cantidadUnidadesInventarioF + cantidadPorOrdenar
+			 _hayPedido = 0
+		ELSE
+			_diasEntrega = diasEntrega
+		END
+	END
+	
+	/* Substraer los pedidos entegados del dia */
+	_cantidadUnidadesInventarioF = _cantidadUnidadesInventarioF - _cantidadPedidos
+END
 
 
