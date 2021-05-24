@@ -54,6 +54,7 @@ NEWCMD simularLabor corridas cantidadUnidadesInventarioIniciales cantidadPorOrde
 	diasEntrega = 0
 	cantidadPedidos = 0
 	corridasSimulacion = 0
+	pedirEntrega = 0
 	cantidadFinalDelDia = cantidadUnidadesInventarioIniciales
 	cantidadInicioDelDia = cantidadUnidadesInventarioIniciales
 	
@@ -70,13 +71,6 @@ NEWCMD simularLabor corridas cantidadUnidadesInventarioIniciales cantidadPorOrde
 
 		cantidadInicioDelDia = cantidadFinalDelDia
 		
-		/* Pedir Unidades */
-		IF hayPedido = 0 AND cantidadFinalDelDia <= puntoDeReorden
-			generarDiasEntrega resultadoDias
-			diasEntrega = resultadoDias
-			hayPedido = 1
-		END
-		
 		laborarDia cantidadInicioDelDia hayPedido diasEntrega cantidadPorOrdenar _hayPedido _diasEntrega _cantidadPedidos _cantidadUnidadesInventarioF
 		
 		/* Actualizar datos de dia laborado */
@@ -84,10 +78,19 @@ NEWCMD simularLabor corridas cantidadUnidadesInventarioIniciales cantidadPorOrde
 		hayPedido = _hayPedido
 		diasEntrega = _diasEntrega
 		cantidadPedidos = _cantidadPedidos
-		
-		/*
-		CONCAT corridasSimulacion cantidadInicioDelDia hayPedido diasEntrega cantidadPedidos cantidadFinalDelDia _datosDia
-		*/
+
+		/* Pedir Unidades */
+		IF pedirEntrega = 1
+			pedirEntrega = 0
+			generarDiasEntrega resultadoDias
+			diasEntrega = resultadoDias
+			hayPedido = 1
+		END
+
+		/* Pedir Unidades */
+		IF hayPedido = 0 AND cantidadFinalDelDia <= puntoDeReorden AND pedirEntrega = 0
+			pedirEntrega = 1
+		END
 
 		CONCAT No corridasSimulacion No
 		CONCAT ini cantidadInicioDelDia ini
