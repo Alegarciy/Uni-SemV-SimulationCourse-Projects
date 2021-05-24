@@ -96,16 +96,12 @@ NEWCMD simularLabor corridas cantidadUnidadesInventarioIniciales cantidadPorOrde
 		CONCAT x cantidadPedidos x
 		CONCAT fin cantidadFinalDelDia fin
 
-		
-		
-		
-
 		corridasSimulacion = corridasSimulacion + 1
 	END
 END 
 
-simularLabor 20 50 50 20 No ini _diasEntrega_C _cantidadPedidos_C _cantidadFinalDelDia_C
-print TABLE No%8.0F ini%8.0F _diasEntrega_C%8.0F _cantidadPedidos_C _cantidadFinalDelDia_C
+simularLabor 100 50 50 20 No ini q t x fin
+print TABLE No%8.0F ini%8.0F q%8.0F t%8.0F x%8.0F fin%8.0F
 
 
 
