@@ -4,7 +4,7 @@ NEWCMD getCantidadPedidos pedidos
 	POISSON 1 7 pedidos
 END
 
-NEWCMD laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega cantidadPorOrdenar _cantidadUnidadesInventarioI _hayPedido _diasEntrega _cantidadPedidos _cantidadUnidadesInventarioF
+NEWCMD laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega cantidadPorOrdenar _hayPedido _diasEntrega _cantidadPedidos _cantidadUnidadesInventarioF
 	
 	/* Generar Peidios */
 	getCantidadPedidos pedidos
@@ -20,6 +20,7 @@ NEWCMD laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega cantidadPorO
 		_diasEntrega = diasEntrega - 1 
 	ELSE
 		IF diasEntrega = 1
+			 _diasEntrega = diasEntrega - 1 
 			 _cantidadUnidadesInventarioF = _cantidadUnidadesInventarioF + cantidadPorOrdenar
 			 _hayPedido = 0
 		ELSE
@@ -45,19 +46,66 @@ NEWCMD generarDiasEntrega resultado
 	END
 END
 
-generarDiasEntrega resultado
-PRINT resultado
 
-/* 
-NEWCMD simularLabor corridas cantidadUnidadesInventarioI cantidadPorOrdenar puntoDeReorden 
+NEWCMD simularLabor corridas cantidadUnidadesInventarioIniciales cantidadPorOrdenar puntoDeReorden No ini q t x fin
+	
 	/* Estados Iniciales */
 	hayPedido = 0
+	diasEntrega = 0
+	cantidadPedidos = 0
+	corridasSimulacion = 0
+	cantidadFinalDelDia = cantidadUnidadesInventarioIniciales
+	cantidadInicioDelDia = cantidadUnidadesInventarioIniciales
+	
+	/* Mostrar Resultados */
+	No = ()
+	ini = ()
+	q = ()
+	T = ()
+	x = ()
+	fin = ()
+
 	/* Inicio de Simulacion */
-	WHILE corridas > 0 
-		laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega
-		corridas = corridas - 1
+	WHILE corridasSimulacion < corridas 
+
+		cantidadInicioDelDia = cantidadFinalDelDia
+		
+		/* Pedir Unidades */
+		IF hayPedido = 0 AND cantidadFinalDelDia <= puntoDeReorden
+			generarDiasEntrega resultadoDias
+			diasEntrega = resultadoDias
+			hayPedido = 1
+		END
+		
+		laborarDia cantidadInicioDelDia hayPedido diasEntrega cantidadPorOrdenar _hayPedido _diasEntrega _cantidadPedidos _cantidadUnidadesInventarioF
+		
+		/* Actualizar datos de dia laborado */
+		cantidadFinalDelDia = _cantidadUnidadesInventarioF 
+		hayPedido = _hayPedido
+		diasEntrega = _diasEntrega
+		cantidadPedidos = _cantidadPedidos
+		
+		/*
+		CONCAT corridasSimulacion cantidadInicioDelDia hayPedido diasEntrega cantidadPedidos cantidadFinalDelDia _datosDia
+		*/
+
+		CONCAT No corridasSimulacion No
+		CONCAT ini cantidadInicioDelDia ini
+		CONCAT q hayPedido q
+		CONCAT t diasEntrega t
+		CONCAT x cantidadPedidos x
+		CONCAT fin cantidadFinalDelDia fin
+
+		
+		
+		
+
+		corridasSimulacion = corridasSimulacion + 1
 	END
 END 
-*/
+
+simularLabor 20 50 50 20 No ini _diasEntrega_C _cantidadPedidos_C _cantidadFinalDelDia_C
+print TABLE No%8.0F ini%8.0F _diasEntrega_C%8.0F _cantidadPedidos_C _cantidadFinalDelDia_C
+
 
 
