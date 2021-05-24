@@ -31,4 +31,33 @@ NEWCMD laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega cantidadPorO
 	_cantidadUnidadesInventarioF = _cantidadUnidadesInventarioF - _cantidadPedidos
 END
 
+NEWCMD generarDiasEntrega resultado
+	UNIFORM 1 0 1 random
+	resultado = 0
+	IF random <= 0.3 
+		resultado = 1
+	END
+	IF 0.3 < random AND random <= 0.7
+		resultado = 2
+	END
+	IF 0.7 <= random
+		resultado = 3
+	END
+END
+
+generarDiasEntrega resultado
+PRINT resultado
+
+/* 
+NEWCMD simularLabor corridas cantidadUnidadesInventarioI cantidadPorOrdenar puntoDeReorden 
+	/* Estados Iniciales */
+	hayPedido = 0
+	/* Inicio de Simulacion */
+	WHILE corridas > 0 
+		laborarDia cantidadUnidadesInventarioI hayPedido diasEntrega
+		corridas = corridas - 1
+	END
+END 
+*/
+
 
