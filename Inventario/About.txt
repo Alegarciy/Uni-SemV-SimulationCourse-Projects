@@ -1,0 +1,275 @@
+ _____ _____ ____
+|_   _| ____/ ___|   Escuela de Computación
+  | | |  _|| |       Ingeniería de Computación
+  | | | |__| |___    Curso Simulación
+  |_| |_____\____|   Inventarios
+
+
+
+
+
+▌
+▌ Introducción.
+▌
+  
+
+A continuación se presenta un estudio de un sistema de inventarios, para el cual es necesario identificar dos variables primordiales. La cantidad de la orden denotada por "q" y el punto de reorden denotado por "r". Por consiguiente para evaluar el funcionamiento del sistema se toman valores de "q" y "r" que minimicen los costos totales de operación.
+
+Al inicio de cada día se revisa el nivel de inventario. Cuando el nivel de inventario es menor o igual al valor de reorden de "r". Se debe solicitar un nuevo pedido. El tiempo de entrega en días del pedido está dado por:
+
+────────────────────
+  Días  Probabilidad
+────────────────────
+    1       0.30
+    2       0.40
+    3       0.30
+────────────────────
+
+
+La demanda se suele construir a través de datos históricos de la empresa. Estos datos se pueden usar directamente como una tabla o bien se puede tratar de construir una distribución de probabilidad que se ajuste a los datos. 
+
+
+En este ejemplo se supondrá que la demanda diaria se comporta como una distribución Poisson con un parámetro de lambda de 7.
+
+
+
+
+          x     -λ  
+         λ  *  e
+p(x)  =  ─────────    para x = 0,1,2,3,...
+            x!
+
+
+
+
+               
+         7ˣ * e⁽⁻⁷⁾
+p(x)  =  ──────────    para x = 0,1,2,3,...
+            x!
+
+
+
+
+La información de costos está dada por los siguientes elementos:
+
+• El costo fijo de hacer un pedido será de $100. No importa la cantidad que se ordene se deben pagar $100 por el pedido.
+
+• El costo del inventario se calculará con base en el inventario al final de cada día. Este cuesta $20 por unidad por día.
+
+• Cuando algún cliente solicita un pedido y este no está disponible se estima un costo de $50 por unidad no satisfecha de forma acumulada. Este es un costo de penalización por la insatisfacción del cliente y otros gastos.
+
+
+A continuación se presenta una tabla con una ejecución de este problema de inventarios. Para la presenta tabla se han tomado los siguientes supuestos:
+
+Inventario inicial:    i = 50
+
+Cantidad por ordenar:  q = 50
+
+Punto de reorden:      r = 20
+
+
+
+
+────────────────────────────────
+No   ini    q?    t     x   fin 
+────────────────────────────────
+ 1    50    0     0     7    43 
+ 2    43    0     0     7    36 
+ 3    36    0     0    13    23 
+ 4    23    0     0     8    15 
+ 5    15    1     3     8     7 
+ 6     7    1     2     9    -2 
+ 7    -2    1     1     6    -8 
+ 8    42    0     0     9    33 
+ 9    33    0     0     8    25 
+10    25    0     0     5    20 
+11    20    1     3     6    14 
+12    14    1     2     7     7 
+13     7    1     1     9    -2 
+14    48    0     0     4    44 
+15    44    0     0     7    37 
+16    37    0     0    10    27 
+17    27    0     0    11    16 
+18    16    1     2     5    11 
+19    11    1     1     4     7 
+20    57    0     0    13    44 
+21    44    0     0     3    41 
+22    41    0     0    12    29 
+23    29    0     0     6    23 
+24    23    0     0    12    11 
+25    11    1     1     5     6 
+26    56    0     0    11    45 
+27    45    0     0    11    34 
+28    34    0     0     8    26 
+29    26    0     0    14    12 
+30    12    1     2     3     9 
+────────────────────────────────
+
+
+
+
+
+Ahora es importante calcular los costos en que se incurre al utilizar este modelo de inventarios. Tal como se había señalado se deben contabilizar tres costos diferentes.
+
+
+
+
+• El costo fijo por orden:
+
+Tal como se observa en la tabla se requirió hacer un pedido en varias ocasiones distintas, por cada una de ellas se deben pagar $100.
+
+costo-fijo = 5 * 100 = 500
+
+
+
+
+• El costo por mantener inventario.
+
+Existen muchas formas de contabilizar el costo del inventario. En nuestro caso se aplicará este costo únicamente a las piezas de inventario que no se han vendido. Observe además que se hay un faltante el costo de inventario de esa día es de 0.
+
+
+costo-inventario = 20 * (   43 + 36 + 23 + 15 +  7
+                          +  0 +  0 + 33 + 25 + 20 
+                          + 14 +  7 +  0 + 44 + 37
+                          + 27 + 16 + 11 +  7 + 44
+                          + 41 + 29 + 23 + 11 +  6
+                          + 45 + 34 + 26 + 12 +  9  )
+
+
+
+
+costo-inventario   = 20 * 645 
+
+
+costo-inventario   = $ 12900
+
+
+
+
+
+• El costo de penalización.
+
+Cuando un cliente no encuentra el producto en inventario se incurre en un costo de penalización. En nuestro caso se había estimado en $50 por unidad.
+
+costo-penalización  =  50 * (2 + 8 + 2)  
+
+costo-penalización  =  50 * 12
+
+costo-penalización  =  $ 600
+
+
+
+
+
+
+
+• Por lo tanto el costo total de la política q = 50, r = 20 se puede estimar en:
+
+costo-total  =  costo-fijo 
+             +  costo-inventario 
+             +  costo-penalización
+
+
+costo-total  =   500  
+             + 12900
+             +   600
+
+
+costo-total  = $ 14000
+
+
+
+
+
+En esta caso sería muy interesante estudiar otras políticas de cantidad por ordenar y punto de reorden, es decir otros valores para "q" y "r". En general se buscaría encontrar valores de "q" y "r" que minimicen el valor del costo total, dadas las condiciones de demanda y tiempo de reorden de este problema.
+
+Asímismo, se correrá la simulación por un año, es decir 365 días. En cada simulación se tendrá un inventario inicial de 50 unidades.
+
+
+
+
+▌
+▌ Desarrollo del Problema.
+▌
+
+
+Se debe generar la siguiente simulación.
+
+• Iniciar con la cantidad de 50 unidades.
+
+• Revisar si hay que reordenar, 
+  Si hay que reordenar, generar una orden con el tiempo de entrega respectivo.
+
+• Generar la demanda del día.
+
+• Disminuir el inventario del dia con la demanda.
+
+• Se debe repetir el proceso por 365 días y estimar el costo total.
+
+
+
+
+
+
+
+
+▌
+▌ Entregables.
+▌
+
+
+• Costo total del inventario para q=50 y r=20.
+Costo total, costo fijo, costo inventario y costo de penalización.
+
+
+
+
+• Qué valores de "q" y "r" minimizan este problema?
+Evaluar  10 ≤ q ≤ 100 
+Evaluar  10 ≤ r ≤ q  
+Entregue una tabla con los valores calculados.
+
+Tanto para los valores de "q", como para los valores de "r" utilice incrementos de 10 unidades.
+
+
+• Código del programa.
+
+
+
+
+
+
+
+
+▌
+▌ Esquema de Calificación.
+▌
+
+
+Deberá entregar su tarea en Texto. La tarea debe incluir.
+
+• Nombre y carné de los miembros del grupo.
+
+• Tabla con los valores de Q en las filas, R en las columnas y Z en las entradas de la matriz.
+
+• La salida del programa debe ser "exactamente" como este ejemplo, de lo contrario tendrá una nota de 0.
+
+• Respuesta correcta para r=20, q=50. (25pts)
+  Respuesta correcta para el punto mínimo de (r,q) con tabla. (25pts)
+  Evaluación del código fuente. (50pts) 
+
+• Para la evaluación del código fuente se evalúa la programación correcta, facilidad, buenas técnicas de programación y eficiencia. Todos estos factores se medirán contra el código que haya diseñado el profesor. Se debe entregar la tarea con al menos 4 dígitos de precisión en la respuesta. 
+
+
+
+
+
+
+
+▌
+▌ Bibliografía.
+▌
+
+https://es.wikipedia.org/wiki/Inventario (inventarios determinísticos)
+Apuntes de clase, Capítulo de Generación de VA.
+Apuntes de clase, Capítulo de Ejemplos.
