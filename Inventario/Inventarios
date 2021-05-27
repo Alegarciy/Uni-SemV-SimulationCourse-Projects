@@ -130,25 +130,35 @@ NEWCMD simularInventarios corridas cantidadUnidadesInventarioIniciales precioOrd
 	NEWARRAY resultados 10 10
 	COPY 1,10 cantidadPorOrdenar
 	FOREACH contQ cantidadPorOrdenar
-		COPY 1,cantidadPorOrdenar puntoReorden
+		COPY 1,contQ puntoReorden
 		FOREACH contR puntoReorden
 			qReal = contQ * 10
 			rReal = contR * 10
-			simularLabor 365 cantidadUnidadesInventarioIniciales qReal rReal No ini q t x fin
+			simularLabor corridas cantidadUnidadesInventarioIniciales qReal rReal No ini q t x fin
 			calcularCostos 100 20 50 q fin costoFijo costoInv costoPen costoTotal
 			resultados[contQ][contR] = costoTotal
 		END
 	END
-	OUTPUT "q\\r     "
-	OUTPUT "%11.7F\t%11.7F\t%11.7F\t%11.7F\t%11.7F\t%11.7F\t%11.7F\t%11.7F\t%11.7F\t%11.7F\n" 10 20 30 40 50 60 70 80 90 100
+	OUTPUT "q\\r    "
+	FOREACH columnHeader 1,10
+		realColumn = columnHeader * 10
+		OUTPUT "%11.7F" realcolumn
+	END
+	OUTPUT "\n"
+	minimo = resultados [1][1]
 	FOREACH row 10,1
 		realQ = row * 10
-		OUTPUT "%5.3F\t" realQ
+		OUTPUT "%7.7F" realQ
 		FOREACH column 1,row
-			print column
-			OUTPUT "%11.7F\t\n" resultados[row][column]
-		END
+			OUTPUT "%11.4F" resultados[row][column] row column
+			IF resultados[row][column] < minimo
+				COPY row column x
+				minimo = resultados [row][column]
+			END
+ 		END
+		OUTPUT "\n"
 	END
+	PRINT X
 END
 
 
@@ -158,6 +168,7 @@ END
 'simularLabor 10 50 50 20 No ini q t x fin
 'calcularCostos 100 20 50 q fin costoFijo costoInv costoPen costoTotal
 'print TABLE No%8.0F ini%8.0F q%8.0F t%8.0F x%8.0F fin%8.0F
+
 /*
 total = 0
 REPEAT 10000
