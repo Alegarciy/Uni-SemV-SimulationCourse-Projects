@@ -1,3 +1,47 @@
+Tecnologico de Costa Rica, Escuela de Computacion, Ingenieria en Computacion
+Curso de Simulacion, I Semestre 2021
+Tarea de simulación de inventarios
+Joseph Tenorio Pereira (2019064588) y Alejandro Garcia Bejarano (2019380047) 
+
+A continuación se presenta un estudio de un sistema de inventarios, para el cual es necesario identificar dos variables primordiales. La cantidad de la orden denotada por "q" y el punto de reorden denotado por "r". Primeramente, a 
+continuación se presentan los resultados obtenidos y los parámetros usados para estos:
+
+-Resultado de costos para q = 50 y r = 20:
+
+costoFijo: 10000.0
+costoInv: 182820.0
+costoPen: 3000.0
+costoTotal: 195820.0
+
+-Busqueda de q y r optimos con 10 ≤ q ≤ 100 y 10 ≤ r ≤ q:
+
+q\r	    10          20          30          40          50          60          70          80          90          100         
+100         312567.92   369089      438497.49   511710.17   585301.44   656155.28   727803.74   799527.68   871794.42   943542.9    
+90          279432.3    333891.07   402862.48   475933.73   549713.44   620308.16   691855.54   763954.6    836202.62   
+80          246871.22   298803.33   367527.57   440269.89   512971.26   584591.86   656064.76   728502.82   
+70          215290.48   263959.31   331838.09   405085.77   476754.8    549199.08   620863.9    
+60          185198.89   230201.1    296793.43   369020.45   442078.14   514411.66   
+50          157424.95   197174.01   262494.6    334942.97   407374.22   
+40          134098.25   165578.16   229117.32   300979.83   
+30          121352.6    135531.63   194051.76   
+20          1365062.96  1232654.38  
+10          11817621.58 
+
+-Valores optimos de q y r:
+
+q = 30
+r = 10
+
+Para los resultados de costos de la corrida con q = 50 y r = 20, se simuló el funcionamiento del inventario por 365 dias, con un costo fijo por orden de 100, costo de penalizacion de 50 y costo por unidad en el inventario de 20. Ademas,
+se tiene que la cantidad de pedidos de un dia es dada por una distribucion de Poisson con un lambda de 7.
+
+Ademas de los parametros anteriores, para encontrar el q y r optimos se hizo la simulacion de 365 dias de inventario unas 1000 veces para cada combinacion de posibles valores mostrada. Posteriormente se promedió el costo total de esas
+mil corridas y dicho promedio es el presentado en la tabla anterior.
+
+Finalmente, se adjunta el código fuente de las simulaciones:
+
+/*------------------------------------------------------------Codigo Fuente de la simulación-----------------------------------------------------------*/
+
 /* LIMPIEZA DE CONSOLA */
 
 CLEAROUTPUT
@@ -134,12 +178,12 @@ NEWCMD calcularCostos precioOrden precioInv precioPen q fin _costoFijo _costoInv
 	_costoTotal = _costoPen + _costoInv + _costoFijo
 END
 
-'Subrutina que realiza la busqueda de q y r optimos con 10 ? q ? 100 y 10 ? r ? q
+'Subrutina que realiza la busqueda de q y r optimos con 10 ≤ q ≤ 100 y 10 ≤ r ≤ q
 NEWCMD simularInventarios corridas dias cantidadUnidadesInventarioIniciales precioOrden preioInv precioPen
 	/*Inicializacion de matriz de resultados*/
 	NEWARRAY resultados 10 10
 
-	/*Pruebas con 10 ? q ? 100 y 10 ? r ? q*/
+	/*Pruebas con 10 ≤ q ≤ 100 y 10 ≤ r ≤ q*/
 	COPY 1,10 cantidadPorOrdenar
 	FOREACH contQ cantidadPorOrdenar
 		COPY 1,contQ puntoReorden
@@ -163,7 +207,7 @@ NEWCMD simularInventarios corridas dias cantidadUnidadesInventarioIniciales prec
 	rOptimo = ()
 	
 	/*Impresion en consola de matriz de resultados*/
-	PRINT ">>Busqueda de q y r optimos con 10 ? q ? 100 y 10 ? r ? q:\n"
+	PRINT ">>Busqueda de q y r optimos con 10 ≤ q ≤ 100 y 10 ≤ r ≤ q:\n"
 	OUTPUT "q\\r\t    "
 	FOREACH indexColumna 1,10
 		columnaReal = indexColumna * 10
@@ -202,8 +246,5 @@ PRINT costoPen
 PRINT costoTotal
 PRINT ""
 
-/*Calculo de valores optimos de q y r para 10 ? q ? 100 y 10 ? r ? q*/
-simularInventarios 1000 365 50 100 20 50 
-
-
-
+/*Calculo de valores optimos de q y r para 10 ≤ q ≤ 100 y 10 ≤ r ≤ q*/
+simularInventarios 1000 365 50 100 20 50
